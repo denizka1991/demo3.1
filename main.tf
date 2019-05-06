@@ -11,14 +11,14 @@ terraform {
 
 
 module "gke" {
-  source   = "./gke"
+  source   = "gke"
   project  = "${var.project}"
   region   = "${var.region}"
   username = "${var.username}"
   password = "${var.password}"
 }
 module "traefik" {
-  source                 = "./k8s/traefik"
+  source                 = "k8s/traefik"
   host                   = "${module.gke.host}"
   username               = "${var.username}"
   password               = "${var.password}"
@@ -29,7 +29,7 @@ module "traefik" {
 }
 
 module "mongo" {
-  source                 = "./k8s/mongo"
+  source                 = "k8s/mongo"
   host                   = "${module.gke.host}"
   username               = "${var.username}"
   password               = "${var.password}"
@@ -43,7 +43,7 @@ module "mongo" {
 }
 
 module "redis" {
-  source                 = "./k8s/redis"
+  source                 = "k8s/redis"
   host                   = "${module.gke.host}"
   username               = "${var.username}"
   password               = "${var.password}"
@@ -54,7 +54,7 @@ module "redis" {
 }
 
 module "tf" {
-  source                 = "./k8s/tensorflow"
+  source                 = "k8s/tensorflow"
   host                   = "${module.gke.host}"
   username               = "${var.username}"
   password               = "${var.password}"
@@ -64,7 +64,7 @@ module "tf" {
 }
 
 module "jypiter" {
-  source                 = "./k8s/jypiter"
+  source                 = "k8s/jypiter"
   host                   = "${module.gke.host}"
   username               = "${var.username}"
   password               = "${var.password}"
@@ -75,7 +75,7 @@ module "jypiter" {
 }
 
 module "bot" {
-  source                 = "./k8s/bot"
+  source                 = "k8s/bot"
   host                   = "${module.gke.host}"
   username               = "${var.username}"
   password               = "${var.password}"
@@ -89,7 +89,7 @@ module "bot" {
 
 module "functions" {
   project               = "${var.project}"
-  source                = "./functions"
+  source                = "functions"
   region                = "${var.region}"
   bucket                = "${var.bucket}"
   API                   = "${var.API}"
