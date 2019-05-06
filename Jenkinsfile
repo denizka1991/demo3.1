@@ -15,16 +15,16 @@ podTemplate(label: label, containers: [
     node(label){
         try {
             withCredentials([file(credentialsId: 'terraform', variable: 'GOOGLE_CREDENTIALS'),
-                                 string(credentialsId: 'TF_VAR_password', variable: 'TF_VAR_password'),
-                                 string(credentialsId: 'TF_VAR_api_telegram', variable: 'TF_VAR_api_telegram'),
-                                 string(credentialsId: 'TF_VAR_MONGODB_PASSWORD', variable: 'TF_VAR_MONGODB_PASSWORD'),
-                                 string(credentialsId: 'TF_VAR_API', variable: 'TF_VAR_API'),
-				                 string(credentialsId: 'TF_VAR_REDIS_PASSWORD', variable: 'TF_VAR_REDIS_PASSWORD'),
-                                 string(credentialsId: 'TF_VAR_bucket', variable: 'TF_VAR_bucket'),
-				                 string(credentialsId: 'TF_VAR_r_pass', variable: 'TF_VAR_r_pass'),
-				                 string(credentialsId: 'TF_VAR_jtoken', variable: 'TF_VAR_jtoken'),
-                                 string(credentialsId: 'TF_VAR_project', variable: 'TF_VAR_project'),
-                                 string(credentialsId: 'TF_VAR_MONGODB_ROOT_PASSWORD', variable: 'TF_VAR_MONGODB_ROOT_PASSWORD')
+                                 //string(credentialsId: 'TF_VAR_password', variable: 'TF_VAR_password'),
+                                 //string(credentialsId: 'TF_VAR_api_telegram', variable: 'TF_VAR_api_telegram'),
+                                 //string(credentialsId: 'TF_VAR_MONGODB_PASSWORD', variable: 'TF_VAR_MONGODB_PASSWORD'),
+                                 //string(credentialsId: 'TF_VAR_API', variable: 'TF_VAR_API'),
+				                 //string(credentialsId: 'TF_VAR_REDIS_PASSWORD', variable: 'TF_VAR_REDIS_PASSWORD'),
+                                 //string(credentialsId: 'TF_VAR_bucket', variable: 'TF_VAR_bucket'),
+				                 //string(credentialsId: 'TF_VAR_r_pass', variable: 'TF_VAR_r_pass'),
+				                 //string(credentialsId: 'TF_VAR_jtoken', variable: 'TF_VAR_jtoken'),
+                                 //string(credentialsId: 'TF_VAR_project', variable: 'TF_VAR_project'),
+                                 //string(credentialsId: 'TF_VAR_MONGODB_ROOT_PASSWORD', variable: 'TF_VAR_MONGODB_ROOT_PASSWORD')
                              ]) {
 
 
