@@ -34,7 +34,7 @@ resource "kubernetes_deployment" "telebot" {
 
       spec {
         container {
-          image = "denizka/telebot:v1.2"
+          image = "denizka/telebot:v1.17"
           name  = "master"
 
           env {

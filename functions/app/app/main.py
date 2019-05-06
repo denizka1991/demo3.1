@@ -27,4 +27,5 @@ def get_data_from_api(request):
         future1 = publisher.publish(topic_path1, data=data_topic1)
         future2 = publisher.publish(topic_path2, data=data_topic2)
         future3 = publisher.publish(topic_path3, data=data_topic3)
+        print("hello")
 
