@@ -41,6 +41,7 @@ podTemplate(label: label, containers: [
                             // sh 'ls -al $GOOGLE_CREDENTIALS'
                             sh 'mkdir -p creds'
                             sh 'cp \$GOOGLE_CREDENTIALS ./creds/gcp-key.json'
+                            sh "echo ./creds/gcp-key.json"
                             //sh "echo \$GOOGLE_CREDENTIALS | base64 -d > ./creds/gcp-key.json"
                             sh 'terraform init'
                             sh 'terraform plan -out myplan'
