@@ -1,5 +1,4 @@
 def label = "jenkpod"
-//def defaultContainer = "jnlp"
 
 
 properties([parameters([choice(choices: ['terraform apply', 'terraform destroy'], description: 'apply', name: 'apply')])])
@@ -40,8 +39,7 @@ podTemplate(label: label, containers: [
                         //set SECRET with the credential content
                             // sh 'ls -al $GOOGLE_CREDENTIALS'
                             sh 'mkdir -p creds'
-                            sh 'cp \$GOOGLE_CREDENTIALS ./creds/gcp-key.json'
-                            sh "cat ./creds/gcp-key.json"
+                            sh "cp \$GOOGLE_CREDENTIALS ./creds/gcp-key.json"
                             //sh "echo \$GOOGLE_CREDENTIALS | base64 -d > ./creds/gcp-key.json"
                             sh 'terraform init'
                             sh 'terraform plan -out myplan'
