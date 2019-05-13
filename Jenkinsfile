@@ -36,7 +36,7 @@ parameters {
         }
 
   environment {
-    GOOGLE_CREDENTIALS = credentials('terraform')
+    SVC_ACCOUNT_KEY = credentials('terraform')
     TF_VAR_password = credentials('TF_VAR_password')
     TF_VAR_api_telegram = credentials('TF_VAR_api_telegram')
     TF_VAR_MONGODB_PASSWORD = credentials('TF_VAR_MONGODB_PASSWORD')
@@ -61,9 +61,10 @@ parameters {
 
     stage("Checkout "){
       steps {
-          //sh 'ls -al $GOOGLE_CREDENTIALS'
+          //sh 'ls -al $SVC_ACCOUNT_KEY'
           sh 'mkdir -p creds'
-          sh 'echo $GOOGLE_CREDENTIALS | base64 -d > ./creds/gcp-key.json'
+          sh 'echo $SVC_ACCOUNT_KEY | base64 -d > ./creds/gcp-key.json'
+          sh 'cat /creds/gcp-key.json'
         }
       }
 
