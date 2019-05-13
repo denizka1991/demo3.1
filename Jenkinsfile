@@ -11,13 +11,8 @@ metadata:
     some-label: some-label-value
 spec:
   containers:
-  - name: python
-    image: python
-    command:
-    - cat
-    tty: true
-  - name: zip
-    image: kramos/alpine-zip
+  - name: python3
+    image: python:3
     command:
     - cat
     tty: true
