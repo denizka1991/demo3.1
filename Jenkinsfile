@@ -57,16 +57,16 @@ parameters {
       }
     }
 
-    stage("Checkout"){
-      steps {
-          sh 'ls -al $SVC_ACCOUNT_KEY'
-          sh 'mkdir -p creds'
-          sh 'echo $SVC_ACCOUNT_KEY | base64 -d > ./creds/gcp-key.json'
-          sh 'cat ./creds/gcp-key.json'
+    //stage("Checkout"){
+      //steps {
+      //    sh 'ls -al $SVC_ACCOUNT_KEY'
+      //    sh 'mkdir -p creds'
+      //    sh 'echo $SVC_ACCOUNT_KEY | base64 -d > ./creds/gcp-key.json'
+      //    sh 'cat ./creds/gcp-key.json'
           //sh 'terraform init'
           //sh 'terraform plan -out myplan'
-      }
-    }
+     // }
+    //}
 
 
 
@@ -145,4 +145,4 @@ parameters {
 
     }
     }
-    }
+}
