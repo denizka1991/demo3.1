@@ -87,36 +87,46 @@ parameters {
         }
       }
 
-if (${params.destroy} == 'terraform destroy') {
+
     stage('Destroy Terraform') {
-        container('terraform'){
-            sh 'terraform destroy -auto-approve -input=false'
-    }
+        steps{
+            script {
+                if (${params.destroy} == 'terraform destroy') {
+                    stage('param'){
+                        container('terraform'){
+                            sh 'terraform destroy -auto-approve -input=false'
+                        }
+                    }
+
+                }
+
+                else{
+                    stage("Run unit tests"){
+                        container("python3"){
+                            sh "pip3 install -r ./functions/requirements.txt"
+                            sh "python3 --version"
+                            sh "python3 ./functions/app/test.py"
+                            sh "python3 ./functions/currentTemp/test.py"
+                            sh "python3 ./functions/getFromDB/test.py"
+                            sh "python3 ./functions/getPredictions/test.py"
+                            sh "python3 ./functions/saveToDB/test.py"
+                            sh "python3 ./functions/toZamb/test.py"
+                            //sh "python3 ./functions/zamb/test.py"
+                        }
+                    }
+                    stage('Apply Terraform') {
+                      steps {
+                        container('terraform'){
+                          sh 'terraform apply -auto-approve -input=false myplan'
+                        }
+                      }
+                    }
+                }
+
     }
 }
 
-else{
-    stage("Run unit tests"){
-        container("python3"){
-            sh "pip3 install -r ./functions/requirements.txt"
-            sh "python3 --version"
-            sh "python3 ./functions/app/test.py"
-            sh "python3 ./functions/currentTemp/test.py"
-            sh "python3 ./functions/getFromDB/test.py"
-            sh "python3 ./functions/getPredictions/test.py"
-            sh "python3 ./functions/saveToDB/test.py"
-            sh "python3 ./functions/toZamb/test.py"
-            //sh "python3 ./functions/zamb/test.py"
-        }
-    }
-    stage('Apply Terraform') {
-      steps {
-        container('terraform'){
-          sh 'terraform apply -auto-approve -input=false myplan'
-        }
-      }
-    }
-  }
+
 
 }
 }
