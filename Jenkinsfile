@@ -59,7 +59,7 @@ parameters {
       }
     }
 
-    stage("Checkout Terraform"){
+    stage("Checkout"){
       steps {
           sh 'ls -al $SVC_ACCOUNT_KEY'
           sh 'mkdir -p creds'
@@ -142,10 +142,10 @@ parameters {
                     }
                 }
 
+            }
+        }
+
+
     }
-}
-
-
-}
 }
 }
