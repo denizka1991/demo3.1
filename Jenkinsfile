@@ -62,15 +62,15 @@ podTemplate(label: label, containers: [
                         }
                     }
 
-                if (${params.destroy} == 'terraform destroy') {
-                    stage('Destroy Terraform') {
-                        container('terraform'){
-                            sh 'terraform destroy -auto-approve -input=false'
-                        }
-                        }
-                }
+                //if (${params.destroy} == 'terraform destroy') {
+                //    stage('Destroy Terraform') {
+                //        container('terraform'){
+                //            sh 'terraform destroy -auto-approve -input=false'
+                //        }
+                //        }
+                //}
 
-                else{
+                //else{
                     stage("Run unit tests"){
                         container("python3"){
                             sh "pip3 install -r ./functions/requirements.txt"
@@ -98,7 +98,7 @@ podTemplate(label: label, containers: [
                     //         sh ' '
                     //         }
                     //    }
-                    }
+                    //#}
 
                 }
             }
