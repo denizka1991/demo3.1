@@ -31,7 +31,7 @@ spec:
   }
 
 parameters {
-        //string(name: 'destroy', defaultValue: 'terraform apply', description: 'terraform')
+        string(name: 'destroy', defaultValue: 'terraform apply', description: 'terraform')
         choice(choices: ['terraform apply', 'terraform destroy'], description: 'destroy of apply?', name: 'terra')
         }
 
@@ -143,7 +143,6 @@ parameters {
             }
         }
 
-
     }
-}
-}
+    }
+    }
