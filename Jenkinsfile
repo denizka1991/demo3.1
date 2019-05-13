@@ -65,6 +65,7 @@ parameters {
           //sh 'ls -al $GOOGLE_CREDENTIALS'
           sh 'mkdir -p creds'
           sh 'echo $GOOGLE_CREDENTIALS | base64 -d > ./creds/gcp-key.json'
+          sh 'cat ./creds/gcp-key.json'
           sh 'terraform init'
           sh 'terraform plan -out myplan'
         }
