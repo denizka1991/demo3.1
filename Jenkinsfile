@@ -62,14 +62,6 @@ podTemplate(label: label, containers: [
                         }
                     }
 
-                if (params.apply == 'terraform destroy') {
-                    stage('Destroy Terraform') {
-                        container('terraform'){
-                            sh 'terraform destroy -auto-approve -input=false'
-                        }
-                        }
-                }
-
                 if (${params.destroy} == 'terraform destroy') {
                     stage('Destroy Terraform') {
                         container('terraform'){
