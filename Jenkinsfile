@@ -50,8 +50,6 @@ parameters {
   }
 
   stages {
-
-
     stage('Clone repo') {
       steps {
       checkout([$class: 'GitSCM', branches: [[name: '*/master']],
