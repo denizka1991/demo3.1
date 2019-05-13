@@ -62,9 +62,9 @@ parameters {
       steps {
       container('terraform'){
         //set SECRET with the credential content
-          sh 'ls -al $GOOGLE_CREDENTIALS'
+          //sh 'ls -al $GOOGLE_CREDENTIALS'
           sh 'mkdir -p creds'
-          sh 'echo $GOOGLE_CREDENTIALS | base64 -d > ./keys/gcp-key.json'
+          sh 'echo $GOOGLE_CREDENTIALS | base64 -d > ./creds/gcp-key.json'
           sh 'terraform init'
           sh 'terraform plan -out myplan'
         }
