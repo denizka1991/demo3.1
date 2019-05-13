@@ -31,7 +31,7 @@ spec:
   }
 
 parameters {
-        string(name: 'destroy', defaultValue: 'terraform apply', description: 'terraform')
+        //string(name: 'destroy', defaultValue: 'terraform apply', description: 'terraform')
         choice(choices: ['terraform apply', 'terraform destroy'], description: 'destroy of apply?', name: 'terra')
         }
 
@@ -54,17 +54,26 @@ parameters {
 
     stage('Clone repo') {
       steps {
-      checkout([$class: 'GitSCM', branches: [[name: '*/jenb']],
-        userRemoteConfigs: [[url: 'https://github.com/olehdevops/SSpractice.git']]])
+      checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+        userRemoteConfigs: [[url: 'https://github.com/Yuriy6735/demo3.1.git']]])
       }
     }
+
+    stage("Checkout "){
+      steps {
+          //sh 'ls -al $GOOGLE_CREDENTIALS'
+          sh 'mkdir -p creds'
+          sh 'echo $GOOGLE_CREDENTIALS | base64 -d > ./creds/gcp-key.json'
+        }
+      }
+
     stage("Checkout Terraform"){
       steps {
       container('terraform'){
         //set SECRET with the credential content
           //sh 'ls -al $GOOGLE_CREDENTIALS'
-          sh 'mkdir -p creds'
-          sh 'echo $GOOGLE_CREDENTIALS | base64 -d > ./creds/gcp-key.json'
+          //sh 'mkdir -p creds'
+          //sh 'echo $GOOGLE_CREDENTIALS | base64 -d > ./creds/gcp-key.json'
           sh 'terraform init'
           sh 'terraform plan -out myplan'
         }
