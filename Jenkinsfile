@@ -64,7 +64,7 @@ parameters {
           //sh 'ls -al $SVC_ACCOUNT_KEY'
           sh 'mkdir -p creds'
           sh 'echo $SVC_ACCOUNT_KEY | base64 -d > ./creds/gcp-key.json'
-          sh 'cat /creds/gcp-key.json'
+          sh 'cat ./creds/gcp-key.json'
         }
       }
 
