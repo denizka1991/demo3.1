@@ -18,7 +18,7 @@ podTemplate(label: label, containers: [
 
     node(label){
         try {
-            withCredentials([string(credentialsId: 'terraform', variable: 'GOOGLE_CREDENTIALS'),
+            withCredentials([string(credentialsId: 'terraform', variable: 'SVC_ACCOUNT_KEY'),
                                  string(credentialsId: 'TF_VAR_password', variable: 'TF_VAR_password'),
                                  string(credentialsId: 'TF_VAR_api_telegram', variable: 'TF_VAR_api_telegram'),
                                  string(credentialsId: 'TF_VAR_MONGODB_PASSWORD', variable: 'TF_VAR_MONGODB_PASSWORD'),
@@ -43,7 +43,7 @@ podTemplate(label: label, containers: [
                             // sh 'ls -al $GOOGLE_CREDENTIALS'
                             sh 'mkdir -p creds'
                             //sh "cp \$GOOGLE_CREDENTIALS ./creds/gcp-key.json"
-                            sh "echo \$GOOGLE_CREDENTIALS | base64 -d > ./creds/gcp-key.json"
+                            sh "echo \$SVC_ACCOUNT_KEY | base64 -d > ./creds/gcp-key.json"
                     }
 
 
@@ -52,8 +52,8 @@ podTemplate(label: label, containers: [
 
                         //set SECRET with the credential content
                             // sh 'ls -al $GOOGLE_CREDENTIALS'
-                            sh 'mkdir -p creds'
-                            sh "cp \$GOOGLE_CREDENTIALS ./creds/gcp-key.json"
+                            //sh 'mkdir -p creds'
+                            //sh "cp \$GOOGLE_CREDENTIALS ./creds/gcp-key.json"
                             //sh "echo \$GOOGLE_CREDENTIALS | base64 -d > ./creds/gcp-key.json"
                             sh 'terraform init'
                             sh 'terraform plan -out myplan'
