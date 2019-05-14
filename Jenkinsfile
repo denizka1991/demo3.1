@@ -66,7 +66,7 @@ spec:
       // checkout scm
         sh 'mkdir -p creds'
         sh 'echo -n $SVC_ACCOUNT_KEY | base64 -d > ./creds/gcp-key.json'
-        sh 'cat ./keys/gcp-key.json'
+        sh 'cat ./creds/gcp-key.json'
         sh 'ls'
       }
     }
