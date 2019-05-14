@@ -99,6 +99,8 @@ parameters {
                 if (${params.destroy} == 'terraform destroy') {
                     stage('param'){
                         container('terraform'){
+                            sh '$TF_VAR_project = base64 -d $TF_VAR_project'
+                            sh 'echo $TF_VAR_project'
                             sh 'terraform destroy -auto-approve -input=false'
                         }
                     }
