@@ -69,7 +69,10 @@ parameters {
         sh 'echo -n $SVC_ACCOUNT_KEY | base64 -d > ./creds/gcp-key.json'
         sh 'cat ./creds/gcp-key.json'
         sh 'echo -n $TF_VAR_project | base64 -d > ./creds/gcp-key.txt'
-        sh 'cat ./creds/gcp-key.txt'
+        environment {
+               TF_VAR_project = sh(script: '$(cat ./creds/gcp-key.txt)', , returnStdout: true).trim()
+           }
+        sh "echo $TF_VAR_project"
       }
     }
 
