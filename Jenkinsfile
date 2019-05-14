@@ -31,7 +31,7 @@ parameters {
         }
 
   environment {
-    SVC_ACCOUNT_KEY = credentials('terraform'),
+    SVC_ACCOUNT_KEY = credentials('terraform')
     TF_VAR_password = credentials('TF_VAR_password')
     TF_VAR_api_telegram = credentials('TF_VAR_api_telegram')
     TF_VAR_MONGODB_PASSWORD = credentials('TF_VAR_MONGODB_PASSWORD')
