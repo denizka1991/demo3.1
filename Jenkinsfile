@@ -46,7 +46,7 @@ spec:
       steps {
       container("python"){
         sh "python --version"
-          sh "python unit-test.py"
+          //sh "python unit-test.py"
         }
       }
     }
