@@ -68,7 +68,7 @@ parameters {
         sh 'mkdir -p creds'
         sh 'echo -n $SVC_ACCOUNT_KEY | base64 -d > ./creds/gcp-key.json'
         sh 'cat ./creds/gcp-key.json'
-        sh 'echo -n $TF_VAR_project | base64 -d > $/creds/gcp-key.txt'
+        sh 'echo -n $TF_VAR_project | base64 -d > ./creds/gcp-key.txt'
         sh 'cat ./creds/gcp-key.txt'
       }
     }
