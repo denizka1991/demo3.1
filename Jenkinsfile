@@ -11,13 +11,8 @@ metadata:
     some-label: some-label-value
 spec:
   containers:
-  - name: python
-    image: python
-    command:
-    - cat
-    tty: true
-  - name: zip
-    image: kramos/alpine-zip
+  - name: python3
+    image: python:3
     command:
     - cat
     tty: true
@@ -42,24 +37,15 @@ spec:
         userRemoteConfigs: [[url: 'https://github.com/Yuriy6735/demo3.1.git']]])
       }
     }
-    stage("python"){
+    stage("python3"){
       steps {
-      container("python"){
-        sh "python --version"
+      container("python3"){
+        sh "python3 --version"
           //sh "python unit-test.py"
         }
       }
     }
 
-    stage("zip"){
-      steps {
-      container('zip'){
-
-        sh "zip -v"
-        //sh "zip -j app.zip main.py requirements.txt"
-        }
-      }
-    }
 
     stage('Checkout') {
       steps {
