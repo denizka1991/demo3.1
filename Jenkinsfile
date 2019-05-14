@@ -64,8 +64,8 @@ spec:
     stage('Checkout') {
       steps {
       // checkout scm
-        sh 'mkdir -p keys'
-        sh 'echo -n $SVC_ACCOUNT_KEY | base64 -d > ./keys/gcp-key.json'
+        sh 'mkdir -p creds'
+        sh 'echo -n $SVC_ACCOUNT_KEY | base64 -d > ./creds/gcp-key.json'
         sh 'cat ./keys/gcp-key.json'
         sh 'ls'
       }
