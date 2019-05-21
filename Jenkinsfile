@@ -12,7 +12,7 @@ podTemplate(label: label, containers: [
 
     node(label){
         try {
-            withCredentials([file(credentialsId: 'terraform', variable: 'SVC_ACCOUNT_KEY'),
+            withCredentials([file(credentialsId: 'terraform', variable: 'GOOGLE_CREDENTIALS'),
                                  string(credentialsId: 'TF_VAR_password', variable: 'TF_VAR_password'),
                                  string(credentialsId: 'TF_VAR_api_telegram', variable: 'TF_VAR_api_telegram'),
                                  string(credentialsId: 'TF_VAR_MONGODB_PASSWORD', variable: 'TF_VAR_MONGODB_PASSWORD'),
@@ -36,7 +36,7 @@ podTemplate(label: label, containers: [
                         container('terraform'){
 
                         //set SECRET with the credential content
-                            sh 'ls -al $SVC_ACCOUNT_KEY'
+                            sh 'ls -al $GOOGLE_CREDENTIALS'
                             sh 'mkdir -p creds'
                             sh "cp \$SVC_ACCOUNT_KEY ./creds/monitoringtest-239812-8eb299494e3f.json"
                          //   sh "cat creds/test.json"
