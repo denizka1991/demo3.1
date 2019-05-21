@@ -3,9 +3,9 @@
 ###############
 terraform {
   backend "gcs" {
-    bucket = "superdemo453217"
+    bucket = "tfd3state12"
     prefix = "demo"
-    credentials = "./creds/gcp-key.json"
+    credentials = "./creds/key.json"
   }
 }
 

@@ -1,100 +1,91 @@
-pipeline {
-  agent {
-    kubernetes {
-      label 'mypod'
-      defaultContainer 'jnlp'
-      yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    some-label: some-label-value
-spec:
-  containers:
-  - name: python3
-    image: python:3
-    command:
-    - cat
-    tty: true
-  - name: terraform
-    image: hashicorp/terraform
-    command:
-    - cat
-    tty: true
-"""
-    }
-  }
+def label = "mypod"
 
-parameters {
-        //string(name: 'destroy', defaultValue: 'terraform apply', description: 'terraform')
-        choice(choices: ['terraform apply', 'terraform destroy'], description: 'destroy of apply?', name: 'terra')
+
+properties([parameters([choice(choices: ['terraform apply', 'terraform destroy'], description: 'apply', name: 'apply')])])
+
+podTemplate(label: label, containers: [
+  containerTemplate(name: 'python3', image: 'python:3', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'terraform', image: 'hashicorp/terraform', command: 'cat', ttyEnabled: true)
+])
+{
+
+
+    node(label){
+        try {
+            withCredentials([file(credentialsId: 'terraform', variable: 'SVC_ACCOUNT_KEY'),
+                                 string(credentialsId: 'TF_VAR_password', variable: 'TF_VAR_password'),
+                                 string(credentialsId: 'TF_VAR_api_telegram', variable: 'TF_VAR_api_telegram'),
+                                 string(credentialsId: 'TF_VAR_MONGODB_PASSWORD', variable: 'TF_VAR_MONGODB_PASSWORD'),
+                                 string(credentialsId: 'TF_VAR_API', variable: 'TF_VAR_API'),
+                                 string(credentialsId: 'TF_VAR_bucket', variable: 'TF_VAR_bucket'),
+                                 string(credentialsId: 'TF_VAR_project', variable: 'TF_VAR_project'),
+                                 string(credentialsId: 'TF_VAR_MONGODB_ROOT_PASSWORD', variable: 'TF_VAR_MONGODB_ROOT_PASSWORD')
+                             ]) {
+
+
+                    stage('Checkout repo'){
+                        checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+                            userRemoteConfigs: [[url: 'https://github.com/denizka1991/demo3.1.git']]])
+                        }
+
+
+                    stage('Checkout Terraform') {
+                        container('terraform'){
+
+                        //set SECRET with the credential content
+                            sh 'ls -al $SVC_ACCOUNT_KEY'
+                            sh 'mkdir -p creds'
+                            sh "cp \$SVC_ACCOUNT_KEY ./creds/key.json"
+                         //   sh "cat creds/test.json"
+                            sh 'terraform init'
+                            sh 'terraform plan -out myplan'
+                            //sh 'terraform apply -auto-approve -input=false myplan'
+                            //sh 'terraform destroy -auto-approve -input=false'
+                        }
+                    }
+
+                if (params.apply == 'terraform destroy') {
+                    stage('Destroy Terraform') {
+                        container('terraform'){
+                            sh 'terraform destroy -auto-approve -input=false'
+                        }
+                        }
+                }
+                else{
+                    stage("Run unit tests"){
+                        container("python3"){
+                            sh "pip3 install -r ./functions/requirements.txt"
+                            sh "python3 --version"
+                            sh "python3 ./functions/app/test.py"
+                            sh "python3 ./functions/currentTemp/test.py"
+                            sh "python3 ./functions/getFromDB/test.py"
+                            sh "python3 ./functions/getPredictions/test.py"
+                            sh "python3 ./functions/saveToDB/test.py"
+                            sh "python3 ./functions/toZamb/test.py"
+                            //sh "python3 ./functions/zamb/test.py"
+                        }
+                    }
+
+
+                    stage('Apply Terraform') {
+                        container('terraform'){
+                             sh 'terraform apply -auto-approve -input=false myplan'
+                             }
+                        }
+
+
+                    //stage('Install monitoring tools') {
+                    //    container('helm'){
+                    //         sh ' '
+                    //         }
+                    //    }
+                    }
+
+                }
+            }
+
+        catch(err){
+            currentBuild.result = 'Failure'
         }
-
-  environment {
-    SVC_ACCOUNT_KEY = credentials('terraform')
-    TF_VAR_password = credentials('TF_VAR_password')
-    TF_VAR_api_telegram = credentials('TF_VAR_api_telegram')
-    TF_VAR_MONGODB_PASSWORD = credentials('TF_VAR_MONGODB_PASSWORD')
-    TF_VAR_API = credentials('TF_VAR_API')
-    TF_VAR_REDIS_PASSWORD = credentials('TF_VAR_REDIS_PASSWORD')
-    TF_VAR_bucket = credentials('TF_VAR_bucket')
-    TF_VAR_r_pass = credentials('TF_VAR_r_pass')
-    TF_VAR_jtoken = credentials('TF_VAR_jtoken')
-    TF_VAR_project = credentials('TF_VAR_project')
-    TF_VAR_MONGODB_ROOT_PASSWORD = credentials('TF_VAR_MONGODB_ROOT_PASSWORD')
-  }
-
-  stages {
-
-    stage('Clone repo') {
-      steps {
-      checkout([$class: 'GitSCM', branches: [[name: '*/master']],
-        userRemoteConfigs: [[url: 'https://github.com/Yuriy6735/demo3.1.git']]])
-      }
     }
-    stage("python3"){
-      steps {
-      container("python3"){
-        sh "python3 --version"
-          //sh "python unit-test.py"
-        }
-      }
-    }
-
-
-    stage('Checkout') {
-      steps {
-      // checkout scm
-        sh 'mkdir -p creds'
-        sh 'echo -n $SVC_ACCOUNT_KEY | base64 -d > ./creds/gcp-key.json'
-        sh 'cat ./creds/gcp-key.json'
-        sh 'echo -n $TF_VAR_project | base64 -d > ./creds/gcp-key.txt'
-        environment {
-               TF_VAR_project = sh(script: '$(cat ./creds/gcp-key.txt)', , returnStdout: true).trim()
-           }
-        sh "echo $TF_VAR_project"
-      }
-    }
-
-
-    stage("TF plan"){
-      steps {
-      container('terraform'){
-
-        sh "terraform version"
-        sh "terraform init"
-        sh "terraform plan -out myplan"
-
-        }
-      }
-    }
-    stage("TF Apply") {
-      steps {
-        container("terraform") {
-          sh "terraform apply -input=false myplan"
-          sh "ls"
-        }
-      }
-    }
-  }
 }
