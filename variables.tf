@@ -19,7 +19,9 @@ variable "MONGODB_PASSWORD" {}
 variable "MONGODB_ROOT_PASSWORD" {}
 variable "REDIS_PASSWORD" {}
 variable "r_pass" {}
-variable "project" {}
+variable "project" {
+  default = "monitoringtest-239812"
+}
 
 variable "region" {
   default = "us-central1"
