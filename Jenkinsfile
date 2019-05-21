@@ -19,6 +19,7 @@ podTemplate(label: label, containers: [
                                  string(credentialsId: 'TF_VAR_API', variable: 'TF_VAR_API'),
                                  string(credentialsId: 'TF_VAR_bucket', variable: 'TF_VAR_bucket'),
                                  string(credentialsId: 'TF_VAR_project', variable: 'TF_VAR_project'),
+				 string(credentialsId: 'TF_VAR_REDIS_PASSWORD', variable: 'TF_VAR_REDIS_PASSWORD'),
                                  string(credentialsId: 'TF_VAR_MONGODB_ROOT_PASSWORD', variable: 'TF_VAR_MONGODB_ROOT_PASSWORD')
                              ]) {
 
