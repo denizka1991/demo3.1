@@ -5,7 +5,7 @@ terraform {
   backend "gcs" {
     bucket = "tfd3state12"
     prefix = "demo"
-    credentials = "./creds/key.json"
+    credentials = "./creds/monitoringtest-239812-8eb299494e3f.json"
   }
 }
 
