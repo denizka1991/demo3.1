@@ -72,6 +72,8 @@ module "jypiter" {
   client_key             = "${module.gke.client_key}"
   cluster_ca_certificate = "${module.gke.cluster_ca_certificate}"
   j_token = "${var.jtoken}"
+  project = "${var.project}"
+  region = "${var.region}"
 }
 
 module "bot" {
