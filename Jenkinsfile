@@ -77,28 +77,17 @@ podTemplate(label: label, containers: [
                              }
                         }
 
-   			stage("run in other container"){
- 	             	withCredentials([file(credentialsId: 'terraform', variable: 'GOOGLE_CREDENTIALS')]) {
-                    //set SECRET with the credential content
-                        sh 'mv \$GOOGLE_CREDENTIALS test'
-		 }
-		   container('monitoring'){
-                    sh "helm version"
-                    //sh "gcloud container clusters get-credentials devops-cluster --zone europe-west1-b --project dynamic-circle-235118"
-		      sh 'helm init'
+
+                    stage('Install monitoring tools') {
+                        container('monitoring'){
+                              sh 'helm init'
 		      sh 'helm repo update'
 		      sh 'helm dep update ./ita-monitoring'
                    // sh 'kubectl create clusterrolebinding tiller --clusterrole cluster-admin -serviceaccount=kube-system:default'
 		      sh "helm upgrade --install monitoring --namespace monitoring ./ita-monitoring"
 		  //    sh 'helm delete --purge monitoring'	
-               }
-
-
-                    //stage('Install monitoring tools') {
-                    //    container('helm'){
-                    //         sh ' '
-                    //         }
-                    //    }
+                             }
+                        }
                     }
 
                 }
