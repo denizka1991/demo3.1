@@ -51,8 +51,36 @@ resource "kubernetes_deployment" "jupyter-notebook" {
       }
 
       spec {
+        init_container {
+          name = "init-jupyter"
+          image =  "jupyter/all-spark-notebook"
+          command = ["bash", "-c", "sed -e \"s;%REGION%;${var.region};g\" -e \"s;%PROJECT%;${var.project};g\" /media/default-notebook.ipynb > /home/jovyan/work/default-notebook.ipynb && chmod a+w /home/jovyan/work/default-notebook.ipynb"]
+
+          volume_mount {
+            mount_path = "/media"
+            name = "${kubernetes_config_map.jupyter_configmap.metadata.0.name}"
+            read_only  = false
+          }
+
+          volume_mount {
+            mount_path = "/home/jovyan/work"
+            name       = "myfiles"
+            read_only = false
+          }
+        }
+        # init_container {
+        #   name = "init-jupyter"
+        #   image =  "jupyter/all-spark-notebook"
+        #   command = ["bash", "-c", ""]
+        # }
         security_context {
           fs_group = 100
+        }
+        volume {
+          name = "${kubernetes_config_map.jupyter_configmap.metadata.0.name}"
+          config_map {
+            name = "${kubernetes_config_map.jupyter_configmap.metadata.0.name}"
+          }
         }
         volume {
           name      = "myfiles"
@@ -66,6 +94,11 @@ resource "kubernetes_deployment" "jupyter-notebook" {
               "--NotebookApp.token='${var.j_token}'"
             ]
         
+          # volume_mount {
+          #   mount_path = "/media"
+          #   name = "${kubernetes_config_map.jupyter_configmap.metadata.0.name}"
+          #   read_only  = false
+          # }
 
           volume_mount {
             mount_path = "/home/jovyan/work"

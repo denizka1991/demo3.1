@@ -13,5 +13,7 @@ variable cluster_ca_certificate {}
 variable "j_token" {
   
 }
-
+ variable "project" {}
+  
+ variable "region"  {}
 
