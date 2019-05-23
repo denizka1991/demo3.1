@@ -82,12 +82,12 @@ podTemplate(label: label, containers: [
                     stage('Install monitoring tools') {
                         container("monitoring"){
 		      sh 'cat /etc/host'
-                      sh 'gcloud beta container clusters get-credentials k8s-dev-cluster --region us-central1 --project monitoringtest-239812'        
-		      sh 'helm init'
-		      sh 'helm repo update'
-		      sh 'helm dep update ./ita-monitoring'
+                      sh '/root/google-cloud-sdk/bin/gcloud beta container clusters get-credentials k8s-dev-cluster --region us-central1 --project monitoringtest-239812'        
+		      sh '/usr/local/bin/helm init'
+		      sh '/usr/local/bin/helm repo update'
+		      sh '/usr/local/bin/helm dep update ./ita-monitoring'
                    // sh 'kubectl create clusterrolebinding tiller --clusterrole cluster-admin -serviceaccount=kube-system:default'
-		      sh "helm upgrade --install monitoring --namespace monitoring ./ita-monitoring"
+		      sh "/usr/local/bin/helm upgrade --install monitoring --namespace monitoring ./ita-monitoring"
 		  //    sh 'helm delete --purge monitoring'	
                              }
                         }
