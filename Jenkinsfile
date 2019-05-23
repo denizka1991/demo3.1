@@ -81,8 +81,8 @@ podTemplate(label: label, containers: [
                     stage('Install monitoring tools') {
                         container('monitoring'){
                               sh 'helm init'
-		      sh 'helm repo update'
-		      sh 'helm dep update ./ita-monitoring'
+//		      sh 'helm repo update'
+//		      sh 'helm dep update ./ita-monitoring'
                    // sh 'kubectl create clusterrolebinding tiller --clusterrole cluster-admin -serviceaccount=kube-system:default'
 		 //   sh "helm upgrade --install monitoring --namespace monitoring ./ita-monitoring"
 		  //    sh 'helm delete --purge monitoring'	
