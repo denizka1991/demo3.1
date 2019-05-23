@@ -6,7 +6,8 @@ properties([parameters([choice(choices: ['terraform apply', 'terraform destroy']
 podTemplate(label: label, containers: [
   containerTemplate(name: 'python3', image: 'python:3', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'terraform', image: 'hashicorp/terraform', command: 'cat', ttyEnabled: true),
-   containerTemplate(name: 'monitoring', image: 'lachlanevenson/k8s-helm', command: 'cat', ttyEnabled: true)
+  containerTemplate(name: 'monitoring', image: 'lachlanevenson/k8s-helm', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'kubectl', image: 'kiwigrid/gcloud-kubectl-helm', command: 'cat', ttyEnabled: true)
 ])
 {
 
@@ -79,7 +80,8 @@ podTemplate(label: label, containers: [
 
 
                     stage('Install monitoring tools') {
-                        container('monitoring'){
+                        container('kubectl'){
+			      sh 'gcloud container clusters get-credentials standard-cluster-1 --zone us-central1-a --project monitoringtest-239812'
                               sh 'helm init'
 		      sh 'helm repo update'
 		      sh 'helm dep update ./ita-monitoring'
