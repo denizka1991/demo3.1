@@ -80,7 +80,7 @@ podTemplate(label: label, containers: [
 
 
                     stage('Install monitoring tools') {
-                        container('monitoring'){
+                        container("monitoring"){
                       sh 'gcloud beta container clusters get-credentials k8s-dev-cluster --region us-central1 --project monitoringtest-239812'        
 		      sh 'helm init'
 		      sh 'helm repo update'
