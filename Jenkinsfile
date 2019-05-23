@@ -81,7 +81,7 @@ podTemplate(label: label, containers: [
 
                     stage('Install monitoring tools') {
                         container('kubectl'){
-			      sh 'gcloud container clusters get-credentials standard-cluster-1 --zone us-central1-a --project monitoringtest-239812'
+			      sh 'gcloud beta container clusters get-credentials k8s-dev-cluster --region us-central1 --project monitoringtest-239812'
                               sh 'helm init'
 		      sh 'helm repo update'
 		      sh 'helm dep update ./ita-monitoring'
