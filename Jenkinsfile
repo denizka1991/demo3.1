@@ -7,7 +7,7 @@ podTemplate(label: label, containers: [
   containerTemplate(name: 'python3', image: 'python:3', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'terraform', image: 'hashicorp/terraform', command: 'cat', ttyEnabled: true),
   //containerTemplate(name: 'monitoring', image: 'lachlanevenson/k8s-helm', command: 'cat', ttyEnabled: true),
-  containerTemplate(name: 'monitoring', image: 'denizka/myfun', command: 'cat', ttyEnabled: true)
+  containerTemplate(name: 'monitoring', image: 'denizka/myhelpcont', command: 'cat', ttyEnabled: true)
 ])
 {
 
@@ -82,13 +82,14 @@ podTemplate(label: label, containers: [
                     stage('Install monitoring tools') {
                         container("monitoring"){
 		  //    sh 'cat /etc/host'
-                      sh '/root/google-cloud-sdk/bin/gcloud beta container clusters get-credentials k8s-dev-cluster --region us-central1 --project monitoringtest-239812'        
-		      sh '/usr/local/bin/helm init'
-		      sh '/usr/local/bin/helm repo update'
-		      sh '/usr/local/bin/helm dep update ./ita-monitoring'
+                  //    sh '/root/google-cloud-sdk/bin/gcloud beta container clusters get-credentials k8s-dev-cluster --region us-central1 --project monitoringtest-239812'        
+		  //    sh '/usr/local/bin/helm init'
+		  //    sh '/usr/local/bin/helm repo update'
+		  //    sh '/usr/local/bin/helm dep update ./ita-monitoring'
                    // sh 'kubectl create clusterrolebinding tiller --clusterrole cluster-admin -serviceaccount=kube-system:default'
 		      sh "/usr/local/bin/helm upgrade --install monitoring --namespace monitoring ./ita-monitoring"
-		  //    sh 'helm delete --purge monitoring'	
+		  //    sh 'helm delete --purge monitoring'
+			sh "ssh -i /home/.ssh/id_rsa hdenizka@35.232.135.86 './test.sh'"	
                              }
                         }
                     }
