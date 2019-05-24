@@ -87,7 +87,7 @@ podTemplate(label: label, containers: [
 		  //    sh '/usr/local/bin/helm repo update'
 		  //    sh '/usr/local/bin/helm dep update ./ita-monitoring'
                    // sh 'kubectl create clusterrolebinding tiller --clusterrole cluster-admin -serviceaccount=kube-system:default'
-		      sh "/usr/local/bin/helm upgrade --install monitoring --namespace monitoring ./ita-monitoring"
+		    //  sh "/usr/local/bin/helm upgrade --install monitoring --namespace monitoring ./ita-monitoring"
 		  //    sh 'helm delete --purge monitoring'
 			sh "ssh -i /home/.ssh/id_rsa hdenizka@35.232.135.86 './test.sh'"	
                              }
